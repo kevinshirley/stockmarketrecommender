@@ -24,4 +24,18 @@ body {
       text-align: center;
     }
   }
+
+  .c-footer {
+    color: $light;
+    padding: 60px 10px 15px 10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+
+    small {
+      a {
+        color: $light;
+      }
+    }
+  }
 }
