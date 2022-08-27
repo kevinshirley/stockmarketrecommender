@@ -9,6 +9,33 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+.c-search {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 7px;
+  padding: 0 15px;
+
+  .c-search__icon {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    cursor: pointer;
+    color: $light;
+  }
+
+  .c-search__field {
+    input {
+      border: 0 !important;
+      outline: none;
+      color: $light;
+    }
+
+    .MuiOutlinedInput-notchedOutline {
+      border: none !important;
+    }
+  }
+}
+
 .c-main {
   background: $main-background;
 
@@ -22,6 +49,27 @@ body {
       margin-block-end: 0;
       color: $light;
       text-align: center;
+    }
+  }
+
+  .c-home {
+    height: 75vh;
+
+    .c-home__search-stocks {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      .c-home__search-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      
+        .c-search {
+          background: rgba($dark, 0.4);
+          margin: 0 15px;
+        }
+      }
     }
   }
 
