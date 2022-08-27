@@ -1,8 +1,16 @@
 import '../src/styles/app.scss'
 import type { AppProps } from 'next/app'
+import Header from '../src/components/header'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+const BEM_BLOCK = 'c-main'
+
+function Root({ Component, pageProps }: AppProps) {
+  return (
+    <main className={BEM_BLOCK}>
+      <Header />
+      <Component {...pageProps} />
+    </main>
+  )
 }
 
-export default MyApp
+export default Root

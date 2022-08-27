@@ -1,3 +1,27 @@
-.c-home {
-  background: #000;
+@import './variables.scss';
+
+html,
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+.c-main {
+  background: $main-background;
+
+  .c-header {
+    display: flex;
+    justify-content: center;
+    padding: 30px 10px;
+
+    h1 {
+      margin-block-start: 0;
+      margin-block-end: 0;
+      color: $light;
+      text-align: center;
+    }
+  }
 }
