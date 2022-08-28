@@ -1,5 +1,15 @@
 import fetch from 'isomorphic-unfetch';
 
+export const get = async (url: string) => {
+  try {
+    const response = await fetch(url, { method: 'GET' });
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const post = async (url: string, payload: any) => {
   try {
     const response = await fetch(url, { 
