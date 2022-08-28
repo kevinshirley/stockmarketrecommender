@@ -1,5 +1,6 @@
 import '../src/styles/app.scss'
 import type { AppProps } from 'next/app'
+import { wrapper } from '../src/store';
 import Header from '../src/components/header'
 import Footer from '../src/components/footer'
 
@@ -15,4 +16,4 @@ function Root({ Component, pageProps }: AppProps) {
   )
 }
 
-export default Root
+export default wrapper.withRedux(Root)

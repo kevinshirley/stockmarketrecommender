@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Search from '../common/search';
-import TextField from '@mui/material/TextField';
+import { useAction } from '../../store/hooks';
+import * as actions from '../../store/actions';
 
 const BEM_BLOCK = 'c-home';
 
 function HomeContainer() {
+  const getStockCompanyProfile = useAction(actions.stocks.getCompanyProfile);
+
+  useEffect(() => {
+    getStockCompanyProfile();
+  }, []);
+
   const onSearchChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     // onCustomersSearch({ value: e.target.value });
     console.log({ searchValue: e.target.value });
