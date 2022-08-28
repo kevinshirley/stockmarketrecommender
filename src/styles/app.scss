@@ -71,6 +71,36 @@ body {
         }
       }
     }
+
+    .c-home__stock-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      padding: 50px 15px;
+
+      @media screen and (max-width: 700px) {
+        grid-template-columns: 1fr;
+      }
+
+      .c-home__detail {
+        display: flex;
+        justify-content: center;
+        color: $light;
+
+        @media screen and (max-width: 700px) {
+          margin-bottom: 50px;
+        }
+      }
+
+      .c-home__stock-price-details {
+        .c-home__content {
+          text-align: right;
+
+          @media screen and (max-width: 700px) {
+            text-align: left;
+          }
+        }
+      }
+    }
   }
 
   .c-footer {

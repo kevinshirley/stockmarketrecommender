@@ -29,8 +29,6 @@ function* getCompanyProfile({ payload }: any) {
     } else {
       console.log('No stock company data returned');
     }
-
-    console.log({ stockCompanyProfileResult });
   } catch(error) {
     console.log('try/catch error in getCompanyProfile saga');
   }
