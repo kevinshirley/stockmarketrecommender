@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import Image from 'next/image';
-import Search from '../common/search';
+import { toUpper, isEmpty } from 'ramda';
 import { useAction } from '../../store/hooks';
 import * as actions from '../../store/actions';
 import { selectStockCompanyProfile } from '../../store/selectors/stock';
+import Search from '../common/search';
+import Button from '../common/button';
 
 interface IStockCompanyProfile {
   country?: string;
@@ -25,16 +26,15 @@ const BEM_BLOCK = 'c-home';
 
 function HomeContainer() {
   const getStockCompanyProfile = useAction(actions.stocks.getCompanyProfile);
+  const resetStockCompanyProfile = useAction(actions.stocks.resetCompanyProfile);
 
   const stockCompanyProfile: IStockCompanyProfile = useSelector(selectStockCompanyProfile);
 
-  useEffect(() => {
-    getStockCompanyProfile({ symbol: 'TSLA' });
-  }, []);
+  const [symbolInput, setSymbolInput] = useState('');
 
   const onSearchChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // onCustomersSearch({ value: e.target.value });
-    console.log({ searchValue: e.target.value });
+    const symbolToUpper = toUpper(e.target.value);
+    setSymbolInput(symbolToUpper);
   };
 
   return (
@@ -44,7 +44,25 @@ function HomeContainer() {
           <Search
             onChange={onSearchChanged}
             placeholder='Search stocks'
+            value={symbolInput}
           />
+        </div>
+        <div className={`${BEM_BLOCK}__stock-buttons`}>
+          <Button
+            className={`${BEM_BLOCK}__search-stock`}
+            onClick={() => getStockCompanyProfile({ symbol: symbolInput })}
+          >
+            Search Stock
+          </Button>
+          <Button
+            className={`${BEM_BLOCK}__reset-stock`}
+            onClick={() => {
+              resetStockCompanyProfile();
+              setSymbolInput('');
+            }}
+          >
+            Reset Stock
+          </Button>
         </div>
       </div>
       <div className={`${BEM_BLOCK}__stock-details`}>
@@ -73,13 +91,15 @@ function HomeContainer() {
             </div>
           </div>
         )}
-        <div className={`${BEM_BLOCK}__detail ${BEM_BLOCK}__stock-price-details`}>
-          <div className={`${BEM_BLOCK}__content`}>
-            <h2>854.6</h2>
-            <p>-35.95(-6.46%)</p>
-            <p>2022-08-28</p>
+        {!isEmpty(stockCompanyProfile) && (
+          <div className={`${BEM_BLOCK}__detail ${BEM_BLOCK}__stock-price-details`}>
+            <div className={`${BEM_BLOCK}__content`}>
+              <h2>854.6</h2>
+              <p>-35.95(-6.46%)</p>
+              <p>2022-08-28</p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

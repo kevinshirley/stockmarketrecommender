@@ -5,6 +5,7 @@ interface IInputField {
   placeholder?: string;
   className?: string;
   ariaLabel?: string;
+  value?: string;
 }
 
 export default function InputField({
@@ -12,6 +13,7 @@ export default function InputField({
   placeholder,
   className,
   ariaLabel,
+  value,
 }: IInputField) {
   return (
     <TextField
@@ -19,6 +21,7 @@ export default function InputField({
       className={className}
       inputProps={{ 'aria-label': ariaLabel }}
       onChange={onChange}
+      value={value}
     />
   )
 }

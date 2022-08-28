@@ -6,11 +6,17 @@ interface ISearch {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClick?: () => void;
   placeholder?: string;
+  value?: string;
 }
 
 const BEM_BLOCK = 'c-search';
 
-function Search({ onChange = () => {}, onClick = () => {}, placeholder = 'Search' }: ISearch) {
+function Search({
+  onChange = () => {},
+  onClick = () => {},
+  placeholder = 'Search',
+  value = '',
+}: ISearch) {
   return (
     <div className={BEM_BLOCK}>
       <div className={`${BEM_BLOCK}__icon`} onClick={onClick}>
@@ -21,6 +27,7 @@ function Search({ onChange = () => {}, onClick = () => {}, placeholder = 'Search
         className={`${BEM_BLOCK}__field`}
         onChange={onChange}
         placeholder={placeholder}
+        value={value}
       />
     </div>
   );
