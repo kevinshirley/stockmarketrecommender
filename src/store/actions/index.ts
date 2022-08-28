@@ -19,7 +19,7 @@ export const STOCKS = createTypes('STOCKS', [
 ]);
 
 export const stocks = {
-  getCompanyProfile: () => action(STOCKS.GET_COMPANY_PROFILE),
+  getCompanyProfile: (payload: { symbol: string }) => action(STOCKS.GET_COMPANY_PROFILE, payload),
   setCompanyProfile: () => action(STOCKS.SET_COMPANY_PROFILE),
   resetCompanyProfile: () => action(STOCKS.RESET_COMPANY_PROFILE),
 };

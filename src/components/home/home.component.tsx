@@ -9,7 +9,7 @@ function HomeContainer() {
   const getStockCompanyProfile = useAction(actions.stocks.getCompanyProfile);
 
   useEffect(() => {
-    getStockCompanyProfile();
+    getStockCompanyProfile({ symbol: 'NKE' });
   }, []);
 
   const onSearchChanged = (e: React.ChangeEvent<HTMLInputElement>) => {

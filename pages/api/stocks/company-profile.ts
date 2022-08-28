@@ -14,7 +14,10 @@ export default function handler(
   api_key.apiKey = 'cc5mnfiad3i9rj8sv1og';
   const finnhubClient = new finnhub.DefaultApi();
 
-  finnhubClient.companyProfile2({'symbol': 'AAPL'}, (error: any, data: any, response: any) => {
+  const parsed = JSON.parse(req.body);
+  const { symbol } = parsed;
+
+  finnhubClient.companyProfile2({ symbol }, (error: any, data: any, response: any) => {
     res.status(200).json(data);
   });
 }
