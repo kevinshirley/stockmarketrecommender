@@ -1,6 +1,7 @@
 // import AppRouter from 'next/router';
 import { put, takeLatest, call } from 'redux-saga/effects';
-import { STOCKS } from '../../actions';
+import { isNil, isEmpty } from 'ramda';
+import { STOCKS, stocks } from '../../actions';
 import { API_ROUTE } from '../../constants/api';
 import { post } from '../../../utils/fetch';
 
@@ -18,9 +19,19 @@ export function* watchGetCompanyProfile() {
 }
 
 function* getCompanyProfile({ payload }: any) {
-  const { symbol } = payload;
+  try {
+    const { symbol } = payload;
 
-  const stockCompanyProfileResult: ResponseGenerator = yield call<any>(post, API_ROUTE.GET_STOCK_COMPANY_PROFILE, { symbol });
+    const stockCompanyProfileResult: ResponseGenerator = yield call<any>(post, API_ROUTE.GET_STOCK_COMPANY_PROFILE, { symbol });
 
-  console.log({ stockCompanyProfileResult });
+    if (!isEmpty(stockCompanyProfileResult) && !isNil(stockCompanyProfileResult)) {
+      yield put(stocks.setCompanyProfile(stockCompanyProfileResult));
+    } else {
+      console.log('No stock company data returned');
+    }
+
+    console.log({ stockCompanyProfileResult });
+  } catch(error) {
+    console.log('try/catch error in getCompanyProfile saga');
+  }
 }
