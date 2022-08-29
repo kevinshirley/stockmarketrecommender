@@ -18,11 +18,17 @@ const StockReducer = (state = initialState, { type, payload }: { type: string; p
       return {
         ...state,
         companyProfile: {},
+        searchInputResults: [],
       };
     case STOCKS.SET_SEARCH_INPUT_RESULTS:
       return {
         ...state,
         searchInputResults: payload,
+      };
+    case STOCKS.RESET_SEARCH_INPUT_RESULTS:
+      return {
+        ...state,
+        searchInputResults: [],
       };
     default:
       return state;

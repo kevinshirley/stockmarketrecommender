@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { toUpper, isEmpty } from 'ramda';
+import { toUpper, isEmpty, isNil } from 'ramda';
 import { useAction } from '../../store/hooks';
 import * as actions from '../../store/actions';
 import { selectStockCompanyProfile } from '../../store/selectors/stock';
@@ -35,9 +35,10 @@ function HomeContainer() {
   const getStockCompanyProfile = useAction(actions.stocks.getCompanyProfile);
   const resetStockCompanyProfile = useAction(actions.stocks.resetCompanyProfile);
   const onSymbolInputResults = useAction(actions.stocks.symbolInputResults);
+  const resetSearchInputResults = useAction(actions.stocks.resetSearchInputResults);
 
   const stockCompanyProfile: IStockCompanyProfile = useSelector(selectStockCompanyProfile);
-  const searchInputResults = useSelector(selectSearchInputResults);
+  const searchInputResults: ISymbolItem[] = useSelector(selectSearchInputResults);
   console.log({ searchInputResults });
 
   const [symbolInput, setSymbolInput] = useState('');
@@ -48,33 +49,51 @@ function HomeContainer() {
     onSymbolInputResults({ symbol: symbolToUpper });
   };
 
+  const onSearchClick = (value: string) => {
+    let searchValue;
+
+    if (!isEmpty(value) && !isNil(value)) {
+      searchValue = value;
+    } else {
+      searchValue = symbolInput;
+    }
+
+    if (!isEmpty(searchValue) && !isNil(searchValue)) {
+      getStockCompanyProfile({ symbol: searchValue });
+      resetSearchInputResults();
+    }
+  };
+
+  const onSearchReset = () => {
+    resetStockCompanyProfile();
+    setSymbolInput('');
+  };
+
   return (
     <div className={BEM_BLOCK}>
       <div className={`${BEM_BLOCK}__search-stocks`}>
         <div className={`${BEM_BLOCK}__search-wrapper`}>
           <Search
             onChange={onSearchChanged}
+            onClick={onSearchClick}
+            onReset={onSearchReset}
             placeholder='Search stocks'
             value={symbolInput}
           />
         </div>
-        <div className={`${BEM_BLOCK}__stock-buttons`}>
-          <Button
-            className={`${BEM_BLOCK}__search-stock`}
-            onClick={() => getStockCompanyProfile({ symbol: symbolInput })}
-          >
-            Search Stock
-          </Button>
-          <Button
-            className={`${BEM_BLOCK}__reset-stock`}
-            onClick={() => {
-              resetStockCompanyProfile();
-              setSymbolInput('');
-            }}
-          >
-            Reset Stock
-          </Button>
-        </div>
+        {!isEmpty(searchInputResults) && !isNil(searchInputResults) && (
+          <div className={`${BEM_BLOCK}__search-input-results`}>
+            {searchInputResults && searchInputResults.map((input: ISymbolItem, i: number) => (
+              <Button
+                key={i}
+                className={`${BEM_BLOCK}__search-input-result`}
+                onClick={() => onSearchClick(input.ticker)}
+              >
+                {input.ticker} - {input.title}
+              </Button>
+            ))}
+          </div>
+        )}
       </div>
       <div className={`${BEM_BLOCK}__stock-details`}>
         {stockCompanyProfile && (

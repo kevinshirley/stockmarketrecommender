@@ -5,7 +5,7 @@ export const selectStockCompanyProfile = R.pathOr({}, [
   'companyProfile',
 ]);
 
-export const selectSearchInputResults = R.pathOr({}, [
+export const selectSearchInputResults = R.pathOr([], [
   'stock',
   'searchInputResults',
 ]);
