@@ -16,6 +16,7 @@ import {
   SPACING,
 } from '../common/icons';
 import StockChart from '../common/chart';
+import stockRecommendation from '../../utils/stock-recommendation';
 
 interface IStockQuote {
   c: number;
@@ -50,6 +51,12 @@ interface ISymbolItem {
   title: string;
 }
 
+enum IStockRecommendationValue {
+  BUY = 'Buy',
+  HOLD = 'Hold',
+  SELL = 'Sell',
+}
+
 const BEM_BLOCK = 'c-home';
 
 function HomeContainer() {
@@ -64,6 +71,7 @@ function HomeContainer() {
   const [symbolInput, setSymbolInput] = useState('');
   const [isStockQuotePositive, setIsStockQuotePositive] = useState(false);
   const [stockDateSelected, setStockDateSelected] = useState('10D');
+  const [recommendation, setRecommendation] = useState('10D');
 
   useEffect(() => {
     if (stockCompanyProfile && stockCompanyProfile.quote) {
@@ -78,6 +86,18 @@ function HomeContainer() {
   }, [stockCompanyProfile]);
 
   useEffect(() => {
+    if (stockCompanyProfile && !isNil(stockCompanyProfile.quote) && !isNil(stockCompanyProfile.socialCount)) {
+      const stockRecommendationResult = stockRecommendation({
+        price: stockCompanyProfile.quote.c,
+        changeValue: stockCompanyProfile.quote.d,
+        socialCount: stockCompanyProfile.socialCount,
+      });
+
+      setRecommendation(stockRecommendationResult);
+    }
+  }, [stockCompanyProfile]);
+
+  useEffect(() => {
     if (isEmpty(symbolInput)) {
       resetSearchInputResults();
       resetStockCompanyProfile();
@@ -87,6 +107,10 @@ function HomeContainer() {
   const stockQuoteClasses = cx({
     [`${BEM_BLOCK}__stock-quote-positive`]: isStockQuotePositive,
     [`${BEM_BLOCK}__stock-quote-negative`]: !isStockQuotePositive,
+  });
+
+  const stockRecommendationClasses = cx({
+    [`${BEM_BLOCK}__stock-quote-positive`]: recommendation === IStockRecommendationValue.SELL,
   });
 
   const stockDateClasses = (value: string) => cx({
@@ -182,9 +206,12 @@ function HomeContainer() {
         {stockCompanyProfile && stockCompanyProfile.quote && (
           <div className={`${BEM_BLOCK}__detail ${BEM_BLOCK}__stock-price-details`}>
             <div className={`${BEM_BLOCK}__content`}>
-              <h2>{stockCompanyProfile.quote.c} {stockCompanyProfile.currency}</h2>
+              <h2>{round(stockCompanyProfile.quote.c)} {stockCompanyProfile.currency}</h2>
               <p className={stockQuoteClasses}>{round(stockCompanyProfile.quote.d)} ({round(stockCompanyProfile.quote.dp)}%)</p>
               <p className={stockQuoteClasses}>Today {isStockQuotePositive ? UPWARD_ARROW_ICON : DOWNWARD_ARROW_ICON}</p>
+              {!isEmpty(recommendation) && !isNil(recommendation) && (
+                <p className={`${BEM_BLOCK}__recommendation`}>Recommendation:{SPACING}{SPACING}<span className={stockRecommendationClasses}>{recommendation}</span></p>
+              )}
             </div>
           </div>
         )}

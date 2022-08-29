@@ -193,6 +193,11 @@ body {
               justify-content: flex-start;
             }
           }
+
+          .c-home__recommendation {
+            display: flex;
+            justify-content: flex-end;
+          }
         }
       }
     }

@@ -16,5 +16,6 @@ export default function handler(
     res.status(200).json(symbolItems);
   } catch(error) {
     console.log({ error });
+    res.status(400).json([]);
   }
 }

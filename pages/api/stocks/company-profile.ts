@@ -7,7 +7,7 @@ type Data = {
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<Data|{}>
 ) {
   try {
     const api_key = finnhub.ApiClient.instance.authentications['api_key'];
@@ -22,5 +22,6 @@ export default function handler(
     });
   } catch(error) {
     console.log({ error });
+    res.status(400).json({});
   }
 }

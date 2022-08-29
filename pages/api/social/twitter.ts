@@ -26,6 +26,7 @@ const handler = async (
     res.status(200).json(sum(todayStockSocialCount));
   } catch(error) {
     console.log({ error });
+    res.status(400).json(0);
   }
 }
 
