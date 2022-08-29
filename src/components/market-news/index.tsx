@@ -39,6 +39,7 @@ function MarketNewsContainer() {
                   href={news.url}
                   key={news.id}
                   target='_blank'
+                  rel="noreferrer"
                 >
                   <div className={`${BEM_BLOCK}__news`}>
                     <h2>{news.headline}</h2>
