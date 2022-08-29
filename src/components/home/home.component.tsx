@@ -71,6 +71,13 @@ function HomeContainer() {
     }
   }, [stockCompanyProfile]);
 
+  useEffect(() => {
+    if (isEmpty(symbolInput)) {
+      resetSearchInputResults();
+      resetStockCompanyProfile();
+    }
+  }, [symbolInput]);
+
   const stockQuoteClasses = cx({
     [`${BEM_BLOCK}__stock-quote-positive`]: isStockQuotePositive,
     [`${BEM_BLOCK}__stock-quote-negative`]: !isStockQuotePositive,

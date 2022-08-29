@@ -33,11 +33,13 @@ function* getCompanyProfile({ payload }: any) {
 
     const stockCompanyProfileResult: ResponseGenerator = yield call<any>(post, API_ROUTE.GET_STOCK_COMPANY_PROFILE, { symbol });
     const stockQuoteResult: ResponseGenerator = yield call<any>(post, API_ROUTE.GET_STOCK_QUOTE, { symbol });
+    const stockSocialCountResult: ResponseGenerator = yield call<any>(post, API_ROUTE.GET_SOCIAL_COUNT, { symbol });
 
     if (!isEmpty(stockCompanyProfileResult) && !isNil(stockCompanyProfileResult) && !isEmpty(stockQuoteResult) && !isNil(stockQuoteResult)) {
       yield put(stocks.setCompanyProfile({
         ...stockCompanyProfileResult,
         quote: stockQuoteResult,
+        socialCount: stockSocialCountResult || 0,
       }));
     } else {
       console.log('No stock company data returned');
