@@ -135,6 +135,28 @@ body {
           @media screen and (max-width: 700px) {
             text-align: left;
           }
+
+          .c-home__stock-quote-negative {
+            color: $error;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+
+            @media screen and (max-width: 700px) {
+              justify-content: flex-start;
+            }
+          }
+
+          .c-home__stock-quote-positive {
+            color: $success;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+
+            @media screen and (max-width: 700px) {
+              justify-content: flex-start;
+            }
+          }
         }
       }
     }

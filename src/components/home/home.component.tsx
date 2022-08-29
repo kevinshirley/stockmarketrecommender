@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { toUpper, isEmpty, isNil } from 'ramda';
+import cx from 'classnames';
 import { useAction } from '../../store/hooks';
 import * as actions from '../../store/actions';
 import { selectStockCompanyProfile } from '../../store/selectors/stock';
 import { selectSearchInputResults } from '../../store/selectors/stock';
 import Search from '../common/search';
 import Button from '../common/button';
+import { round } from '../../utils/number';
+import { UPWARD_ARROW_ICON, DOWNWARD_ARROW_ICON } from '../common/icons';
+
+interface IStockQuote {
+  c: number;
+  d: number;
+  dp: number;
+  h: number;
+  l: number;
+  o: number;
+  pc: number;
+}
 
 interface IStockCompanyProfile {
   country?: string;
@@ -21,6 +34,7 @@ interface IStockCompanyProfile {
   shareOutstanding?: number;
   ticker?: string;
   weburl?: string;
+  quote?: IStockQuote;
 }
 
 interface ISymbolItem {
@@ -39,9 +53,26 @@ function HomeContainer() {
 
   const stockCompanyProfile: IStockCompanyProfile = useSelector(selectStockCompanyProfile);
   const searchInputResults: ISymbolItem[] = useSelector(selectSearchInputResults);
-  console.log({ searchInputResults });
 
   const [symbolInput, setSymbolInput] = useState('');
+  const [isStockQuotePositive, setIsStockQuotePositive] = useState(false);
+
+  useEffect(() => {
+    if (stockCompanyProfile && stockCompanyProfile.quote) {
+      const stockQuote = stockCompanyProfile.quote;
+
+      if (stockQuote.d > 0) {
+        setIsStockQuotePositive(true);
+      } else {
+        setIsStockQuotePositive(false);
+      }
+    }
+  }, [stockCompanyProfile]);
+
+  const stockQuoteClasses = cx({
+    [`${BEM_BLOCK}__stock-quote-positive`]: isStockQuotePositive,
+    [`${BEM_BLOCK}__stock-quote-negative`]: !isStockQuotePositive,
+  });
 
   const onSearchChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     const symbolToUpper = toUpper(e.target.value);
@@ -121,12 +152,12 @@ function HomeContainer() {
             </div>
           </div>
         )}
-        {!isEmpty(stockCompanyProfile) && (
+        {stockCompanyProfile && stockCompanyProfile.quote && (
           <div className={`${BEM_BLOCK}__detail ${BEM_BLOCK}__stock-price-details`}>
             <div className={`${BEM_BLOCK}__content`}>
-              <h2>854.6</h2>
-              <p>-35.95(-6.46%)</p>
-              <p>2022-08-28</p>
+              <h2>{stockCompanyProfile.quote.c} {stockCompanyProfile.currency}</h2>
+              <p className={stockQuoteClasses}>{round(stockCompanyProfile.quote.d)} ({round(stockCompanyProfile.quote.dp)}%)</p>
+              <p className={stockQuoteClasses}>Today {isStockQuotePositive ? UPWARD_ARROW_ICON : DOWNWARD_ARROW_ICON}</p>
             </div>
           </div>
         )}

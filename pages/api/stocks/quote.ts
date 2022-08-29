@@ -17,7 +17,7 @@ export default function handler(
     const parsed = JSON.parse(req.body);
     const { symbol } = parsed;
 
-    finnhubClient.companyProfile2({ symbol }, (error: any, data: any, response: any) => {
+    finnhubClient.quote(symbol, (error: any, data: any, response: any) => {
       res.status(200).json(data);
     });
   } catch(error) {
