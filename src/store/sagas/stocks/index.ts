@@ -33,7 +33,12 @@ function* getCompanyProfile({ payload }: any) {
 
     const stockCompanyProfileResult: ResponseGenerator = yield call<any>(post, API_ROUTE.GET_STOCK_COMPANY_PROFILE, { symbol });
     const stockQuoteResult: ResponseGenerator = yield call<any>(post, API_ROUTE.GET_STOCK_QUOTE, { symbol });
-    const stockSocialCountResult: ResponseGenerator = yield call<any>(post, API_ROUTE.GET_SOCIAL_COUNT, { symbol });
+
+    let stockSocialCountResult: ResponseGenerator | number = 0;
+
+    if (stockCompanyProfileResult && stockCompanyProfileResult.name) {
+      stockSocialCountResult = yield call<any>(post, API_ROUTE.GET_SOCIAL_COUNT, { symbol: stockCompanyProfileResult.name });
+    }
 
     if (!isEmpty(stockCompanyProfileResult) && !isNil(stockCompanyProfileResult) && !isEmpty(stockQuoteResult) && !isNil(stockQuoteResult)) {
       yield put(stocks.setCompanyProfile({
