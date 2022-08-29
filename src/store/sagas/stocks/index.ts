@@ -1,5 +1,3 @@
-// import AppRouter from 'next/router';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { isNil, isEmpty, map, includes, filter } from 'ramda';
