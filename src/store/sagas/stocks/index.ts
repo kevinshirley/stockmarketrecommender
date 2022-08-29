@@ -27,6 +27,10 @@ export function* watchSymbolInputResults() {
   yield takeLatest(STOCKS.SYMBOL_INPUT_RESULTS, symbolInputResults);
 }
 
+export function* watchStockMarketNews() {
+  yield takeLatest(ROOT.INITIAL_LOAD, stockMarketNews);
+}
+
 function* getCompanyProfile({ payload }: any) {
   try {
     const { symbol } = payload;
@@ -94,5 +98,20 @@ function* symbolInputResults({ payload }: any) {
     }
   } catch(error) {
     console.log('try/catch error in getStockSymbols saga: ', error);
+  }
+}
+
+function* stockMarketNews() {
+  try {
+    const stockMarketNewsResult: ResponseGenerator = yield call<any>(get, API_ROUTE.GET_STOCK_MARKET_NEWS);
+
+    if (!isEmpty(stockMarketNewsResult) && !isNil(stockMarketNewsResult)) {
+      yield put(stocks.setMarketNews(stockMarketNewsResult));
+      console.log({ stockMarketNewsResult });
+    } else {
+      console.log('No stock market news available');
+    }
+  } catch(error) {
+    console.log('try/catch error in stockMarketNews saga');
   }
 }

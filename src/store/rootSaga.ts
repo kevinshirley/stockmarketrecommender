@@ -4,6 +4,7 @@ import {
   watchGetCompanyProfile,
   watchGetStockSymbols,
   watchSymbolInputResults,
+  watchStockMarketNews,
 } from '../store/sagas/stocks';
 
 function* rootSaga() {
@@ -11,6 +12,7 @@ function* rootSaga() {
     watchGetCompanyProfile(),
     watchGetStockSymbols(),
     watchSymbolInputResults(),
+    watchStockMarketNews(),
   ]);
 }
 
