@@ -107,7 +107,6 @@ function* stockMarketNews() {
 
     if (!isEmpty(stockMarketNewsResult) && !isNil(stockMarketNewsResult)) {
       yield put(stocks.setMarketNews(stockMarketNewsResult));
-      console.log({ stockMarketNewsResult });
     } else {
       console.log('No stock market news available');
     }

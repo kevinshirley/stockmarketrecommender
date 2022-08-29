@@ -149,7 +149,6 @@ function HomeContainer() {
         <div className={`${BEM_BLOCK}__search-wrapper`}>
           <Search
             onChange={onSearchChanged}
-            onClick={onSearchClick}
             onReset={onSearchReset}
             placeholder='Search stocks'
             value={symbolInput}
@@ -174,8 +173,8 @@ function HomeContainer() {
           <h3>Please enter a stock symbol to start</h3>
         </div>
       )}
-      <div className={`${BEM_BLOCK}__stock-details`}>
-        {stockCompanyProfile && (
+      {!isEmpty(stockCompanyProfile) && !isNil(stockCompanyProfile) && (
+        <div className={`${BEM_BLOCK}__stock-details`}>
           <div className={`${BEM_BLOCK}__detail ${BEM_BLOCK}__stock-name`}>
             <div className={`${BEM_BLOCK}__content`}>
               {stockCompanyProfile.ticker && (
@@ -192,30 +191,30 @@ function HomeContainer() {
               )}
             </div>
           </div>
-        )}
-        {stockCompanyProfile && stockCompanyProfile.logo && (
-          <div className={`${BEM_BLOCK}__detail ${BEM_BLOCK}__stock-logo`}>
-            <div className={`${BEM_BLOCK}__content`}>
-              <img
-                src={stockCompanyProfile.logo}
-                alt={stockCompanyProfile.name}
-              />
+          {stockCompanyProfile.logo && (
+            <div className={`${BEM_BLOCK}__detail ${BEM_BLOCK}__stock-logo`}>
+              <div className={`${BEM_BLOCK}__content`}>
+                <img
+                  src={stockCompanyProfile.logo}
+                  alt={stockCompanyProfile.name}
+                />
+              </div>
             </div>
-          </div>
-        )}
-        {stockCompanyProfile && stockCompanyProfile.quote && (
-          <div className={`${BEM_BLOCK}__detail ${BEM_BLOCK}__stock-price-details`}>
-            <div className={`${BEM_BLOCK}__content`}>
-              <h2>{round(stockCompanyProfile.quote.c)} {stockCompanyProfile.currency}</h2>
-              <p className={stockQuoteClasses}>{round(stockCompanyProfile.quote.d)} ({round(stockCompanyProfile.quote.dp)}%)</p>
-              <p className={stockQuoteClasses}>Today {isStockQuotePositive ? UPWARD_ARROW_ICON : DOWNWARD_ARROW_ICON}</p>
-              {!isEmpty(recommendation) && !isNil(recommendation) && (
-                <p className={`${BEM_BLOCK}__recommendation`}>Recommendation:{SPACING}{SPACING}<span className={stockRecommendationClasses}>{recommendation}</span></p>
-              )}
+          )}
+          {stockCompanyProfile.quote && (
+            <div className={`${BEM_BLOCK}__detail ${BEM_BLOCK}__stock-price-details`}>
+              <div className={`${BEM_BLOCK}__content`}>
+                <h2>{round(stockCompanyProfile.quote.c)} {stockCompanyProfile.currency}</h2>
+                <p className={stockQuoteClasses}>{round(stockCompanyProfile.quote.d)} ({round(stockCompanyProfile.quote.dp)}%)</p>
+                <p className={stockQuoteClasses}>Today {isStockQuotePositive ? UPWARD_ARROW_ICON : DOWNWARD_ARROW_ICON}</p>
+                {!isEmpty(recommendation) && !isNil(recommendation) && (
+                  <p className={`${BEM_BLOCK}__recommendation`}>Recommendation:{SPACING}{SPACING}<span className={stockRecommendationClasses}>{recommendation}</span></p>
+                )}
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
       {!isEmpty(stockCompanyProfile) && !isNil(stockCompanyProfile) && (
         <div className={`${BEM_BLOCK}__stock-dates`}>
           <Button className={stockDateClasses('1D')} onClick={() => setStockDateSelected('1D')}>1D</Button>
