@@ -3,12 +3,14 @@ import 'isomorphic-unfetch';
 import { 
   watchGetCompanyProfile,
   watchGetStockSymbols,
+  watchSymbolInputResults,
 } from '../store/sagas/stocks';
 
 function* rootSaga() {
   yield all([
     watchGetCompanyProfile(),
     watchGetStockSymbols(),
+    watchSymbolInputResults(),
   ]);
 }
 

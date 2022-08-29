@@ -2,6 +2,7 @@ import { STOCKS } from '../../actions';
 
 const initialState = {
   companyProfile: {},
+  searchInputResults: [],
 };
 
 const StockReducer = (state = initialState, { type, payload }: { type: string; payload: any }) => {
@@ -17,6 +18,11 @@ const StockReducer = (state = initialState, { type, payload }: { type: string; p
       return {
         ...state,
         companyProfile: {},
+      };
+    case STOCKS.SET_SEARCH_INPUT_RESULTS:
+      return {
+        ...state,
+        searchInputResults: payload,
       };
     default:
       return state;

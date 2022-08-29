@@ -4,6 +4,7 @@ import { toUpper, isEmpty } from 'ramda';
 import { useAction } from '../../store/hooks';
 import * as actions from '../../store/actions';
 import { selectStockCompanyProfile } from '../../store/selectors/stock';
+import { selectSearchInputResults } from '../../store/selectors/stock';
 import Search from '../common/search';
 import Button from '../common/button';
 
@@ -22,19 +23,29 @@ interface IStockCompanyProfile {
   weburl?: string;
 }
 
+interface ISymbolItem {
+  cik_str: number;
+  ticker: string;
+  title: string;
+}
+
 const BEM_BLOCK = 'c-home';
 
 function HomeContainer() {
   const getStockCompanyProfile = useAction(actions.stocks.getCompanyProfile);
   const resetStockCompanyProfile = useAction(actions.stocks.resetCompanyProfile);
+  const onSymbolInputResults = useAction(actions.stocks.symbolInputResults);
 
   const stockCompanyProfile: IStockCompanyProfile = useSelector(selectStockCompanyProfile);
+  const searchInputResults = useSelector(selectSearchInputResults);
+  console.log({ searchInputResults });
 
   const [symbolInput, setSymbolInput] = useState('');
 
   const onSearchChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     const symbolToUpper = toUpper(e.target.value);
     setSymbolInput(symbolToUpper);
+    onSymbolInputResults({ symbol: symbolToUpper });
   };
 
   return (

@@ -1,10 +1,12 @@
 // import AppRouter from 'next/router';
-import { put, takeLatest, call } from 'redux-saga/effects';
-import { isNil, isEmpty } from 'ramda';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+import { put, takeLatest, call, select } from 'redux-saga/effects';
+import { isNil, isEmpty, map, includes, filter } from 'ramda';
 import { STOCKS, stocks, ROOT } from '../../actions';
 import { API_ROUTE } from '../../constants/api';
 import { post, get } from '../../../utils/fetch';
-import { symbols } from '../../constants/stock-symbols';
+import { selectStockSymbols } from '../../selectors/stocks';
 
 export interface ResponseGenerator{
   config?:any,
@@ -21,6 +23,10 @@ export function* watchGetCompanyProfile() {
 
 export function* watchGetStockSymbols() {
   yield takeLatest(ROOT.INITIAL_LOAD, getStockSymbols);
+}
+
+export function* watchSymbolInputResults() {
+  yield takeLatest(STOCKS.SYMBOL_INPUT_RESULTS, symbolInputResults);
 }
 
 function* getCompanyProfile({ payload }: any) {
@@ -50,5 +56,34 @@ function* getStockSymbols() {
     }
   } catch(error) {
     console.log('try/catch error in getStockSymbols saga');
+  }
+}
+
+function* symbolInputResults({ payload }: any) {
+  try {
+    const { symbol } = payload;
+
+    if (!isNil(symbol) && !isEmpty(symbol)) {
+      const stockSymbols: ResponseGenerator = yield select<any>(selectStockSymbols);
+      const stockSymbolTickers: string[] = map((stock: {
+        cik_str: number;
+        ticker: string;
+        title: string;
+      }) => stock.ticker, stockSymbols);
+
+      const inputResults = stockSymbolTickers.filter((ticker: any) => includes(symbol, ticker));
+
+      const searchInputResults = filter<any>((stock: {
+        cik_str: number;
+        ticker: string;
+        title: string;
+      }) => includes(stock.ticker, inputResults), stockSymbols);
+
+      yield put(stocks.setSearchInputResults(searchInputResults));
+    } else {
+      yield put(stocks.setSearchInputResults([]));
+    }
+  } catch(error) {
+    console.log('try/catch error in getStockSymbols saga: ', error);
   }
 }

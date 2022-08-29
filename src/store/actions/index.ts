@@ -28,6 +28,8 @@ export const STOCKS = createTypes('STOCKS', [
   'SET_COMPANY_PROFILE',
   'RESET_COMPANY_PROFILE',
   'SET_STOCK_SYMBOLS',
+  'SYMBOL_INPUT_RESULTS',
+  'SET_SEARCH_INPUT_RESULTS',
 ]);
 
 export const root = {
@@ -39,4 +41,6 @@ export const stocks = {
   setCompanyProfile: (payload: any) => action(STOCKS.SET_COMPANY_PROFILE, payload),
   resetCompanyProfile: () => action(STOCKS.RESET_COMPANY_PROFILE),
   setStockSymbols: (payload: any) => action(STOCKS.SET_STOCK_SYMBOLS, payload),
+  symbolInputResults: (payload: any) => action(STOCKS.SYMBOL_INPUT_RESULTS, payload),
+  setSearchInputResults: (payload: any) => action(STOCKS.SET_SEARCH_INPUT_RESULTS, payload),
 };
