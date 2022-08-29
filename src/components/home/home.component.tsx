@@ -10,6 +10,7 @@ import Search from '../common/search';
 import Button from '../common/button';
 import { round } from '../../utils/number';
 import { UPWARD_ARROW_ICON, DOWNWARD_ARROW_ICON } from '../common/icons';
+import StockChart from '../common/chart';
 
 interface IStockQuote {
   c: number;
@@ -126,6 +127,11 @@ function HomeContainer() {
           </div>
         )}
       </div>
+      {isEmpty(stockCompanyProfile) && isEmpty(symbolInput) && (
+        <div className={`${BEM_BLOCK}__no-input`}>
+          <h3>Please enter a stock symbol to start</h3>
+        </div>
+      )}
       <div className={`${BEM_BLOCK}__stock-details`}>
         {stockCompanyProfile && (
           <div className={`${BEM_BLOCK}__detail ${BEM_BLOCK}__stock-name`}>
@@ -162,6 +168,11 @@ function HomeContainer() {
           </div>
         )}
       </div>
+      {!isEmpty(stockCompanyProfile) && !isNil(stockCompanyProfile) && !isEmpty(stockCompanyProfile.quote) && !isNil(stockCompanyProfile.quote) && (
+        <div className={`${BEM_BLOCK}__stock-chart`}>
+          <StockChart quote={stockCompanyProfile.quote} name={stockCompanyProfile.name} />
+        </div>
+      )}
     </div>
   );
 };

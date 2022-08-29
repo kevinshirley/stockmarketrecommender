@@ -101,6 +101,15 @@ body {
       }
     }
 
+    .c-home__no-input {
+      padding: 60px 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.3em;
+      color: $light;
+    }
+
     .c-home__stock-details {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -158,6 +167,15 @@ body {
             }
           }
         }
+      }
+    }
+
+    .c-home__stock-chart {
+      display: flex;
+      justify-content: center;
+
+      canvas {
+        background-color: $light;
       }
     }
   }
