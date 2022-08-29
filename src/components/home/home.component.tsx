@@ -9,7 +9,12 @@ import { selectSearchInputResults } from '../../store/selectors/stock';
 import Search from '../common/search';
 import Button from '../common/button';
 import { round } from '../../utils/number';
-import { UPWARD_ARROW_ICON, DOWNWARD_ARROW_ICON } from '../common/icons';
+import {
+  UPWARD_ARROW_ICON,
+  DOWNWARD_ARROW_ICON,
+  TWITTER_ICON,
+  SPACING,
+} from '../common/icons';
 import StockChart from '../common/chart';
 
 interface IStockQuote {
@@ -36,6 +41,7 @@ interface IStockCompanyProfile {
   ticker?: string;
   weburl?: string;
   quote?: IStockQuote;
+  socialCount?: number;
 }
 
 interface ISymbolItem {
@@ -156,6 +162,9 @@ function HomeContainer() {
               )}
               {stockCompanyProfile.exchange && (
                 <p>{stockCompanyProfile.exchange}</p>
+              )}
+              {stockCompanyProfile.socialCount && (
+                <p className={`${BEM_BLOCK}__social-mentions`}><span className={`${BEM_BLOCK}__twitter-icon`}>{TWITTER_ICON}</span>{SPACING}Twitter mentions (Today): {stockCompanyProfile.socialCount}</p>
               )}
             </div>
           </div>

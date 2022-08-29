@@ -141,6 +141,21 @@ body {
         }
       }
 
+      .c-home__stock-name {
+        .c-home__content {
+          .c-home__social-mentions {
+            display: flex;
+            align-items: center;
+
+            .c-home__twitter-icon {
+              svg {
+                fill: $twitter-light-blue;
+              }
+            }
+          }
+        }
+      }
+
       .c-home__stock-logo {
         .c-home__content {
           img {
