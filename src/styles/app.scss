@@ -110,6 +110,18 @@ body {
       color: $light;
     }
 
+    .c-home__stock-dates {
+      display: flex;
+      justify-content: space-around;
+      margin: 30px 15px;
+      color: $light;
+
+      .c-home__stock-date {
+        cursor: pointer;
+        color: $light;
+      }
+    }
+
     .c-home__stock-details {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;

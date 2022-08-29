@@ -57,6 +57,7 @@ function HomeContainer() {
 
   const [symbolInput, setSymbolInput] = useState('');
   const [isStockQuotePositive, setIsStockQuotePositive] = useState(false);
+  const [stockDateSelected, setStockDateSelected] = useState('10D');
 
   useEffect(() => {
     if (stockCompanyProfile && stockCompanyProfile.quote) {
@@ -74,6 +75,10 @@ function HomeContainer() {
     [`${BEM_BLOCK}__stock-quote-positive`]: isStockQuotePositive,
     [`${BEM_BLOCK}__stock-quote-negative`]: !isStockQuotePositive,
   });
+
+  const stockDateClasses = (value: string) => cx({
+    [`${BEM_BLOCK}__stock-date--selected`]: value === stockDateSelected,
+  }, [`${BEM_BLOCK}__stock-date`]);
 
   const onSearchChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     const symbolToUpper = toUpper(e.target.value);
@@ -168,6 +173,16 @@ function HomeContainer() {
           </div>
         )}
       </div>
+      {!isEmpty(stockCompanyProfile) && !isNil(stockCompanyProfile) && (
+        <div className={`${BEM_BLOCK}__stock-dates`}>
+          <Button className={stockDateClasses('1D')} onClick={() => setStockDateSelected('1D')}>1D</Button>
+          <Button className={stockDateClasses('1D')} onClick={() => setStockDateSelected('5D')}>5D</Button>
+          <Button className={stockDateClasses('1D')} onClick={() => setStockDateSelected('10D')}>10D</Button>
+          <Button className={stockDateClasses('1D')} onClick={() => setStockDateSelected('1M')}>1M</Button>
+          <Button className={stockDateClasses('1D')} onClick={() => setStockDateSelected('6M')}>6M</Button>
+          <Button className={stockDateClasses('1D')} onClick={() => setStockDateSelected('YTD')}>YTD</Button>
+        </div>
+      )}
       {!isEmpty(stockCompanyProfile) && !isNil(stockCompanyProfile) && !isEmpty(stockCompanyProfile.quote) && !isNil(stockCompanyProfile.quote) && (
         <div className={`${BEM_BLOCK}__stock-chart`}>
           <StockChart quote={stockCompanyProfile.quote} name={stockCompanyProfile.name} />
