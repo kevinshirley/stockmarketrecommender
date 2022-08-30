@@ -144,7 +144,7 @@ function HomeContainer() {
   };
 
   return (
-    <div className={BEM_BLOCK}>
+    <div className={BEM_BLOCK} data-testid='home-component'>
       <div className={`${BEM_BLOCK}__search-stocks`}>
         <div className={`${BEM_BLOCK}__search-wrapper`}>
           <Search
@@ -161,6 +161,7 @@ function HomeContainer() {
                 key={i}
                 className={`${BEM_BLOCK}__search-input-result`}
                 onClick={() => onSearchClick(input.ticker)}
+                dataTestid={`search-result`}
               >
                 {input.ticker} - {input.title}
               </Button>

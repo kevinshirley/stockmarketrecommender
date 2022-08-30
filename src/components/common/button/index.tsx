@@ -12,6 +12,7 @@ interface ITextButton {
   isLoading?: boolean;
   style?: any;
   color?: any;
+  dataTestid?: string;
 }
 
 export default function TextButton({
@@ -23,6 +24,7 @@ export default function TextButton({
   isLoading = false,
   style,
   color,
+  dataTestid = '',
 }: ITextButton) {
   const textButtonClasses = cx({
     [className]: className,
@@ -37,6 +39,7 @@ export default function TextButton({
       type={type}
       style={style}
       color={color}
+      data-testid={dataTestid}
     >
       {isLoading ? (
         <Spinner />
